@@ -85,9 +85,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             <h1 className="text-6xl sm:text-5xl lg:text-4xl xl:text-6xl font-inter leading-tight">
               <span className="italic text-gray-600">A Personal</span>
               <br />
-              <span className="font-medium text-black/90">Asset Manager for {" "}</span>
-              <span className="font-medium text-black/90">your Physical {" "}</span>
-              <span className="font-medium text-black/90">assets</span>
+              <span className="font-regular text-black/90">Asset Manager for {" "}</span>
+              <span className="font-regular text-black/90">your Physical {" "}</span>
+              <span className="font-regular text-black/90">assets</span>
             </h1>
           </motion.div>
 
