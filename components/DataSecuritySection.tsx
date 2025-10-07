@@ -66,14 +66,14 @@ const DataSecuritySection: React.FC<DataSecuritySectionProps> = ({ className = '
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 font-inter mb-16">
-            Let's first talk about data security
+          <h2 className="text-3xl sm:text-3xl lg:text-4xl font-medium text-gray-900 font-inter mb-16">
+            Let&apos;s first talk about data security
           </h2>
         </motion.div>
 
         {/* Security Cards */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -88,16 +88,14 @@ const DataSecuritySection: React.FC<DataSecuritySectionProps> = ({ className = '
               transition={{ duration: 0.3 }}
             >
               {/* Card Header with Icon */}
-              <div className="relative ">
-                <div className="flex items-center justify-center bg-red-500">
-                  <div className="relative w-100 h-100">
-                    <Image
-                      src={card.image}
-                      alt={card.title}
-                      fill
-                      className="object-fit"
-                    />
-                  </div>
+              <div className="relative w-full">
+                <div className="relative w-full h-80">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
 
 
