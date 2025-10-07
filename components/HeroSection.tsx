@@ -43,7 +43,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
       {/* Background Images */}
       <div className="absolute inset-0 z-0">
         {/* Desktop Background */}
-        <div className="hidden lg:block absolute inset-0">
+        <div className="hidden lg:block absolute lg:-bottom-48 inset-0">
           <Image
             src="/desktopbg.svg"
             alt="Desktop Background"
