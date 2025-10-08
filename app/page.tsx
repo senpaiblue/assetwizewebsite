@@ -1,6 +1,7 @@
 import HeroSection from '../components/HeroSection';
 import DataSecuritySection from '../components/DataSecuritySection';
 import WhyAssetwizeSection from '../components/WhyAssetwizeSection';
+import WhatPeopleTodaySection from '../components/WhatPeopleTodaySection';
 import AssetCategoriesSection from '../components/AssetCategoriesSection';
 
 export default function Home() {
@@ -9,7 +10,8 @@ export default function Home() {
       <HeroSection />
       <DataSecuritySection />
       <AssetCategoriesSection />
-      <WhyAssetwizeSection />
+      <WhyAssetwizeSection /> 
+      <WhatPeopleTodaySection />
     </main>
   );
 }

@@ -82,7 +82,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             variants={textVariants}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-6xl sm:text-3xl lg:text-4xl xl:text-5xl font-inter leading-tight">
+            <h1 className="text-5xl sm:text-3xl lg:text-4xl xl:text-5xl font-inter leading-tight">
               <span className="italic text-gray-600">A Personal</span>
               <br />
               <span className="font-regular text-black/90">Asset Manager for {" "}</span>
