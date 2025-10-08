@@ -39,6 +39,7 @@ const fallbackGallery: string[] = [
 
 const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category, onClose }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [activeTab, setActiveTab] = useState<'overview' | 'benefits'>('overview');
 
   useEffect(() => {
     const update = () => setIsMobile(window.matchMedia('(max-width: 640px)').matches);
@@ -78,19 +79,44 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-gray-700"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                   </div>
+                  {/* Tabs */}
+                  <div className="mt-4 mb-2 inline-flex items-center rounded-full bg-gray-100 p-1 w-max">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('overview')}
+                      className={`${activeTab === 'overview' ? 'bg-black text-white' : 'text-gray-700 hover:text-black'} px-4 py-1.5 rounded-full text-sm font-medium transition-colors`}
+                    >
+                      Overview
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('benefits')}
+                      className={`${activeTab === 'benefits' ? 'bg-black text-white' : 'text-gray-700 hover:text-black'} px-4 py-1.5 rounded-full text-sm font-medium transition-colors`}
+                    >
+                      Benefits
+                    </button>
+                  </div>
                   <div className="mt-3 space-y-3 text-gray-700 leading-relaxed text-sm sm:text-base">
-                    {(category?.paragraphs ?? [
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-                    ]).map((t, i) => (<p key={i}>{t}</p>))}
+                    {(
+                      activeTab === 'overview'
+                        ? (category?.paragraphs ?? [
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                            'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                            'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+                          ])
+                        : [
+                            'Securely store, catalogue and track your assets in one place.',
+                            'Share records with advisors privately when needed.',
+                            'Keep valuations, receipts and warranties organized for faster actions.'
+                          ]
+                    ).map((t, i) => (<p key={i}>{t}</p>))}
                   </div>
 
-                  <div className="mt-6">
+                  {/* <div className="mt-6">
                     <button type="button" className="inline-flex items-center gap-2 rounded-full bg-black px-5 py-3 text-white text-sm sm:text-base shadow hover:shadow-md transition-shadow">
                       Download App
                     </button>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Image grid - shown second on mobile, first on desktop */}
