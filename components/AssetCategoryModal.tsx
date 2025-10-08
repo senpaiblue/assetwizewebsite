@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
@@ -38,11 +38,20 @@ const fallbackGallery: string[] = [
 ];
 
 const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category, onClose }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.matchMedia('(max-width: 640px)').matches);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   return (
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50"
+          className="fixed inset-0 z-[10000]"
           initial="hidden"
           animate="visible"
           exit="exit"
@@ -54,8 +63,11 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
             <motion.div
               role="dialog"
               aria-modal="true"
-              className="pointer-events-auto w-full max-w-5xl rounded-3xl bg-white shadow-2xl border border-gray-200"
-              variants={modal}
+              className="pointer-events-auto w-full max-w-5xl rounded-3xl bg-white shadow-2xl border border-gray-200 max-h-[92vh] overflow-auto"
+              variants={isMobile ? undefined : modal}
+              initial={isMobile ? undefined : 'hidden'}
+              animate={isMobile ? undefined : 'visible'}
+              exit={isMobile ? undefined : 'exit'}
             >
               <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 p-4 sm:p-6">
                 {/* Text content - shown first on mobile */}
@@ -82,27 +94,35 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
                 </div>
 
                 {/* Image grid - shown second on mobile, first on desktop */}
-                <div className="lg:w-1/2 grid grid-cols-2 gap-4 self-start order-1 lg:order-1">
-                  {(category?.gallery ?? fallbackGallery).map((src, idx) => {
-                    console.log(`Rendering image ${idx}:`, src);
-                    return (
-                      <div key={idx} className={`relative overflow-hidden rounded-2xl ${idx === 0 ? 'row-span-2' : ''} ${idx === 0 ? 'h-48 sm:h-64' : 'h-24 sm:h-32'} bg-gray-100`}>
-                        <Image 
-                          src={src} 
-                          alt={(category?.title ?? 'Category') + ' image'} 
-                          fill 
-                          className="object-cover" 
-                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 50vw"
-                          priority={idx === 0}
-                          onLoad={() => console.log(`Image ${idx} loaded successfully:`, src)}
-                          onError={(e) => {
-                            console.error('Image failed to load:', src);
-                            console.error('Error:', e);
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
+                <div className="lg:w-1/2 w-full grid grid-cols-2 gap-3 sm:gap-4 self-start order-1 lg:order-1" style={{ minHeight: '300px' }}>
+                  {(category?.gallery ?? fallbackGallery).map((src, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`relative overflow-hidden rounded-2xl bg-gray-200 ${idx === 0 ? 'row-span-2' : ''}`}
+                      style={{
+                        height: idx === 0 ? '300px' : '145px',
+                        minHeight: idx === 0 ? '300px' : '145px'
+                      }}
+                    >
+                      <img
+                        src={src}
+                        alt={`${category?.title ?? 'Category'} ${idx + 1}`}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block'
+                        }}
+                        loading={idx < 2 ? 'eager' : 'lazy'}
+                        onLoad={() => console.log(`Image ${idx} loaded:`, src)}
+                        onError={(e) => {
+                          console.error('Image failed to load:', src);
+                          const target = e.currentTarget;
+                          target.style.backgroundColor = '#e5e7eb';
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -114,5 +134,3 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
 };
 
 export default AssetCategoryModal;
-
-
