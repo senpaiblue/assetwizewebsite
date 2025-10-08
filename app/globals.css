@@ -29,3 +29,8 @@ body {
 .font-inter {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
+
+/* Stacked image soft shadow similar to mock */
+.soft-shadow {
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.15));
+}

@@ -8,6 +8,8 @@ interface ICategoryItem {
   id: string;
   title: string;
   imageUrl: string;
+  gallery?: string[];
+  paragraphs?: string[];
 }
 
 interface IAssetCategoryModalProps {
@@ -28,7 +30,7 @@ const modal = {
   exit: { opacity: 0, scale: 0.98, y: 10, transition: { duration: 0.2 } }
 };
 
-const galleryImages: string[] = [
+const fallbackGallery: string[] = [
   'https://images.unsplash.com/photo-1616596661856-6d88b67a9abc?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1603575449153-328d9a8809a0?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1612100452467-d2f6a2dff7e5?q=80&w=1200&auto=format&fit=crop',
@@ -56,17 +58,8 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
               variants={modal}
             >
               <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 p-4 sm:p-6">
-                {/* Left: Image grid */}
-                <div className="lg:w-1/2 grid grid-cols-2 gap-4 self-start">
-                  {galleryImages.map((src, idx) => (
-                    <div key={idx} className={`relative overflow-hidden rounded-2xl ${idx === 0 ? 'row-span-2' : ''}`}>
-                      <Image src={src} alt={(category?.title ?? 'Category') + ' image'} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
-                    </div>
-                  ))}
-                </div>
-
-                {/* Right: Text content */}
-                <div className="lg:w-1/2 flex flex-col">
+                {/* Text content - shown first on mobile */}
+                <div className="lg:w-1/2 flex flex-col order-2 lg:order-2">
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">{category?.title}</h3>
                     <button aria-label="Close" onClick={onClose} className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
@@ -74,9 +67,11 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
                     </button>
                   </div>
                   <div className="mt-3 space-y-3 text-gray-700 leading-relaxed text-sm sm:text-base">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    {(category?.paragraphs ?? [
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+                    ]).map((t, i) => (<p key={i}>{t}</p>))}
                   </div>
 
                   <div className="mt-6">
@@ -84,6 +79,30 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
                       Download App
                     </button>
                   </div>
+                </div>
+
+                {/* Image grid - shown second on mobile, first on desktop */}
+                <div className="lg:w-1/2 grid grid-cols-2 gap-4 self-start order-1 lg:order-1">
+                  {(category?.gallery ?? fallbackGallery).map((src, idx) => {
+                    console.log(`Rendering image ${idx}:`, src);
+                    return (
+                      <div key={idx} className={`relative overflow-hidden rounded-2xl ${idx === 0 ? 'row-span-2' : ''} ${idx === 0 ? 'h-48 sm:h-64' : 'h-24 sm:h-32'} bg-gray-100`}>
+                        <Image 
+                          src={src} 
+                          alt={(category?.title ?? 'Category') + ' image'} 
+                          fill 
+                          className="object-cover" 
+                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 50vw"
+                          priority={idx === 0}
+                          onLoad={() => console.log(`Image ${idx} loaded successfully:`, src)}
+                          onError={(e) => {
+                            console.error('Image failed to load:', src);
+                            console.error('Error:', e);
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
