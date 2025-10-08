@@ -75,7 +75,7 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
                 <div className="lg:w-1/2 flex flex-col order-2 lg:order-2">
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">{category?.title}</h3>
-                    <button aria-label="Close" onClick={onClose} className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <button aria-label="Close" onClick={onClose} className="shrink-0 hidden lg:inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-gray-700"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                   </div>
@@ -120,7 +120,15 @@ const AssetCategoryModal: React.FC<IAssetCategoryModalProps> = ({ open, category
                 </div>
 
                 {/* Image grid - shown second on mobile, first on desktop */}
-                <div className="lg:w-1/2 w-full grid grid-cols-2 gap-3 sm:gap-4 self-start order-1 lg:order-1" style={{ minHeight: '300px' }}>
+                <div className="lg:w-1/2 w-full grid grid-cols-2 gap-3 sm:gap-4 self-start order-1 lg:order-1 relative" style={{ minHeight: '300px' }}>
+                  {/* Mobile close button over image */}
+                  <button
+                    aria-label="Close"
+                    onClick={onClose}
+                    className="lg:hidden absolute top-2 right-2 z-10 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/90 shadow hover:bg-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-gray-700"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
                   {(category?.gallery ?? fallbackGallery).map((src, idx) => (
                     <div 
                       key={idx} 
