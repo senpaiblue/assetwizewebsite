@@ -4,6 +4,7 @@ import WhyAssetwizeSection from '../components/WhyAssetwizeSection';
 import WhatPeopleTodaySection from '../components/WhatPeopleTodaySection';
 import BenefitsAssetMgmtSection from '../components/BenefitsAssetMgmtSection';
 import AssetCategoriesSection from '../components/AssetCategoriesSection';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <WhyAssetwizeSection /> 
       <WhatPeopleTodaySection />
       <BenefitsAssetMgmtSection />
+      <Footer />
     </main>
   );
 }
