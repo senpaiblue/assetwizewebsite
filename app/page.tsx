@@ -2,6 +2,7 @@ import HeroSection from '../components/HeroSection';
 import DataSecuritySection from '../components/DataSecuritySection';
 import WhyAssetwizeSection from '../components/WhyAssetwizeSection';
 import WhatPeopleTodaySection from '../components/WhatPeopleTodaySection';
+import BenefitsAssetMgmtSection from '../components/BenefitsAssetMgmtSection';
 import AssetCategoriesSection from '../components/AssetCategoriesSection';
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <AssetCategoriesSection />
       <WhyAssetwizeSection /> 
       <WhatPeopleTodaySection />
+      <BenefitsAssetMgmtSection />
     </main>
   );
 }
